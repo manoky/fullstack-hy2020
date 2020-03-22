@@ -35,7 +35,7 @@ const App = (props) => {
   const handleVote = () => {
     const newVotes = [...votes];
     newVotes[selected] += 1
-    setVotes(newVotes); console.log(votes)
+    setVotes(newVotes);
   }
 
   const mostVotes = () => {
