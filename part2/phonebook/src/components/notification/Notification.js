@@ -5,7 +5,7 @@ const Notification = ({message, type, setMessage }) => {
     return null
   }
 
-  setTimeout(() => setMessage(''), 5000)
+  setTimeout(() => setMessage(null), 5000)
 
   return (
     <div className={type}>

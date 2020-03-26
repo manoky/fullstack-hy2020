@@ -12,7 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [filtervalue, setFilterValue] = useState('')
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(null)
   const [noticeType, setNoticeType] = useState('')
 
   useEffect(() => {
