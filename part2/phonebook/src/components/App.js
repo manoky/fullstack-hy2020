@@ -57,7 +57,7 @@ const App = () => {
             setNoticeType('success')
           })
           .catch(error => {
-            setMessage(`Then replacing the number for ${updatePerson.name} failed`)
+            setMessage(error.response.data.error)
             setNoticeType('error')
           })
       }
@@ -70,18 +70,15 @@ const App = () => {
     const newPerson = {name: newName, number: newNumber}
     personService
       .create(newPerson)
-      .then(data => {
+      .then(data => { console.log(data)
         setPersons([...persons, data])
         setMessage(`${newPerson.name} has been succesfully added to phonebook`)
         setNoticeType('success')
       })
       .catch(error => {
-        setMessage(`${newPerson.name} could not be added to phonebook`)
+        setMessage(error.response.data.error)
         setNoticeType('error')
       })
-    
-    setNewName('')
-    setNewNumber('')
   }
 
   const handleFilter = (e) => {
@@ -109,7 +106,7 @@ const App = () => {
     
       })
       .catch(error => {
-        setMessage(`Information of ${personToDelete.name} has already been removed from server`)
+        setMessage(error.response.data.error)
         setNoticeType('error')
         setPersons(persons.filter(person => person.id !== id))
       })
