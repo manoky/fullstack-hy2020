@@ -3,12 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import AddblogForm from './components/AddblogForm'
 import LoginForm from './components/LoginForm'
+import Notification from './components/notification/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [noticeType, setNoticeType] = useState('')
   const [blog, setBlog] = useState({
     title: '',
     author: '',
@@ -21,7 +24,8 @@ const App = () => {
         const blogs = await blogService.getAll()
         setBlogs(blogs)
       } catch (exception) {
-        console.log(exception)
+        setNoticeType('error')
+        setMessage(exception.response.data.error)
       }
     })()
 
@@ -47,9 +51,12 @@ const App = () => {
     
       window.localStorage.setItem('currentUser', JSON.stringify(user))
       setUser(user)
+      setNoticeType('success')
+      setMessage(`${user.name} successfully logged in`)
     
-    } catch (error) {
-      console.log(error)
+    } catch (exception) {
+      setNoticeType('error')
+      setMessage(exception.response.data.error)
     }
     setUsername('')
     setPassword('')
@@ -58,16 +65,22 @@ const App = () => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('currentUser')
+    setNoticeType('error')
+    setMessage(`${user.name} logged out`)
   }
 
   const addBlog = async(e) => {
     e.preventDefault()
     try {
       const newBlog = await blogService.create(blog)
-      console.log(newBlog)
+      setNoticeType('success')
+      setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+
       setBlogs([...blogs, newBlog])
     } catch(exception) {
-      console.log(exception.response.data)
+
+      setNoticeType('error')
+      setMessage(exception.response.data.error)
     }
     setBlog({ title: '', author: '', url: '' })
   }
@@ -75,9 +88,16 @@ const App = () => {
   const setBlogProperties = name => ({ target }) => {
     setBlog({ ...blog, [name]: target.value })
   }
-  console.log(blog)
+
   return (
     <div>
+      {message && (
+        <Notification
+          type={noticeType}
+          setMessage={setMessage}
+          message={message}
+        />
+      )}
       {
         !user ? (
           <LoginForm

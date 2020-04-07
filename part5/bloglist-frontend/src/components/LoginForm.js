@@ -14,7 +14,7 @@ const LoginForm = (props) => {
       <h2> Log in to application </h2>
       <form onSubmit={handleLogin}>
         <div>
-          username
+          username: {' '}
           <input
             type="text"
             value={username}
@@ -23,7 +23,7 @@ const LoginForm = (props) => {
           />
         </div>
         <div>
-          password
+          password: {' '}
           <input
             type="password"
             value={password}
