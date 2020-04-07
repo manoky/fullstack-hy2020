@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import AddblogForm from './components/AddblogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/notification/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
   const [noticeType, setNoticeType] = useState('')
+  const [loginVisible, setLoginVisible] = useState(false)
   const [blog, setBlog] = useState({
     title: '',
     author: '',
@@ -89,6 +91,30 @@ const App = () => {
     setBlog({ ...blog, [name]: target.value })
   }
 
+  const loginForm = () => (
+    <Togglable buttonLable='login'>
+      <LoginForm
+        password={password}
+        setPassword={setPassword}
+        username={username}
+        setUsername={setUsername}
+        handleLogin={handleLogin}
+      />
+    </Togglable>
+  )
+
+  const blogForm = () => (
+    <Togglable buttonLable='create note'>
+      <AddblogForm
+        title={blog.title}
+        author={blog.author}
+        url={blog.url}
+        setBlog={setBlogProperties}
+        addBlog={addBlog}
+      />
+    </Togglable>
+  )
+
   return (
     <div>
       {message && (
@@ -98,35 +124,23 @@ const App = () => {
           message={message}
         />
       )}
+      <h2>blogs</h2>
       {
         !user ? (
-          <LoginForm
-            password={password}
-            setPassword={setPassword}
-            username={username}
-            setUsername={setUsername}
-            handleLogin={handleLogin}
-          />
+          loginForm()
         ) : (
           <>
-            <h2>blogs</h2>
             <p>
               {user.name} logged in <button onClick={handleLogout}>logout</button>
             </p>
         
-            <AddblogForm
-              title={blog.title}
-              author={blog.author}
-              url={blog.url}
-              setBlog={setBlogProperties}
-              addBlog={addBlog}
-            />
-            {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} />
-            )}
+            {blogForm()}
           </>
         )
       }
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
     </div>
   )
 }
