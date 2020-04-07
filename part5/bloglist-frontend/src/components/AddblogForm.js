@@ -10,35 +10,38 @@ const AddblogForm = (props) => {
   } = props
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        title
-        <input
-          type="text"
-          value={title}
-          onChange={setBlog}
-        />
-      </div>
-      <div>
-        author
-        <input
-          type="text"
-          value={author}
-          onChange={setBlog}
-        />
-      </div>
-      <div>
-        url
-        <input
-          type="text"
-          value={url}
-          onChange={setBlog}
-        />
-      </div>
-      <div>
-        <button type="submit">save</button>
-      </div>
-    </form>
+    <>
+      <h2>create new</h2>
+      <form onSubmit={addBlog}>
+        <div>
+          title
+          <input
+            type="text"
+            value={title}
+            onChange={setBlog('title')}
+          />
+        </div>
+        <div>
+          author
+          <input
+            type="text"
+            value={author}
+            onChange={setBlog('author')}
+          />
+        </div>
+        <div>
+          url
+          <input
+            type="text"
+            value={url}
+            onChange={setBlog('url')}
+          />
+        </div>
+        <div>
+          <button type="submit">create</button>
+        </div>
+      </form>
+    </>
   )
 }
 
