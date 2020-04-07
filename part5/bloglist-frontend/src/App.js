@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import AddblogForm from './components/AddblogForm'
+import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/notification/Notification'
 import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
   const [noticeType, setNoticeType] = useState('')
-  const [loginVisible, setLoginVisible] = useState(false)
-  const [blog, setBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
 
   useEffect(() => {
     (async () => {
@@ -42,12 +34,10 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
+  const handleLogin = async (credentials) => {
+  
     try {
-      const user = await blogService.login({
-        username, password
-      })
+      const user = await blogService.login(credentials)
   
       blogService.setToken(user.token)
     
@@ -60,8 +50,7 @@ const App = () => {
       setNoticeType('error')
       setMessage(exception.response.data.error)
     }
-    setUsername('')
-    setPassword('')
+    
   }
 
   const handleLogout = () => {
@@ -71,8 +60,8 @@ const App = () => {
     setMessage(`${user.name} logged out`)
   }
 
-  const addBlog = async(e) => {
-    e.preventDefault()
+  const addBlog = async (blog) => {
+  
     try {
       const newBlog = await blogService.create(blog)
       setNoticeType('success')
@@ -84,34 +73,18 @@ const App = () => {
       setNoticeType('error')
       setMessage(exception.response.data.error)
     }
-    setBlog({ title: '', author: '', url: '' })
-  }
-
-  const setBlogProperties = name => ({ target }) => {
-    setBlog({ ...blog, [name]: target.value })
+    
   }
 
   const loginForm = () => (
     <Togglable buttonLable='login'>
-      <LoginForm
-        password={password}
-        setPassword={setPassword}
-        username={username}
-        setUsername={setUsername}
-        handleLogin={handleLogin}
-      />
+      <LoginForm handleLogin={handleLogin} />
     </Togglable>
   )
 
   const blogForm = () => (
-    <Togglable buttonLable='create note'>
-      <AddblogForm
-        title={blog.title}
-        author={blog.author}
-        url={blog.url}
-        setBlog={setBlogProperties}
-        addBlog={addBlog}
-      />
+    <Togglable buttonLable='new note'>
+      <BlogForm addBlog={addBlog} />
     </Togglable>
   )
 
