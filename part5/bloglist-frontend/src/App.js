@@ -89,6 +89,18 @@ const App = () => {
     }
   }
 
+  const handleDelete = async (id) => {
+
+    try {
+      await blogService.destroy(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+
+    } catch (exception) {
+      setNoticeType('error')
+      setMessage(exception.response.data.error)
+    }
+  }
+
   const loginForm = () => (
     <Togglable buttonLable='login'>
       <LoginForm handleLogin={handleLogin} />
@@ -133,6 +145,7 @@ const App = () => {
             key={blog.id}
             blog={blog}
             handleUpdate={handleUpdate}
+            removeBlog={handleDelete}
           />
         )}
     </div>

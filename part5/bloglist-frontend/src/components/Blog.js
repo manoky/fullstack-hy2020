@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-const Blog = ({ blog, handleUpdate }) => {
+const Blog = ({ blog, handleUpdate, removeBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -29,6 +29,11 @@ const Blog = ({ blog, handleUpdate }) => {
     handleUpdate(value.id, upateBlog)
   }
 
+  const handleDelete = value => {
+    const destroy = window.confirm(`Remove ${value.title} by ${value.author}`)
+    destroy && removeBlog(value.id)
+  }
+
   return (
     <div style={blogStyle}>
       <div onClick={toggleVisible} style={{cursor: 'pointer'}}>
@@ -47,6 +52,9 @@ const Blog = ({ blog, handleUpdate }) => {
         </div>
         <div>
           {blog.user && blog.user.name}
+        </div>
+        <div>
+          <button onClick={() => handleDelete(blog)}>remove</button>
         </div>
       </div>
     </div>
