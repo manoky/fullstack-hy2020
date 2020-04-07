@@ -82,7 +82,7 @@ const App = () => {
     try {
       const updatedBlog = await blogService.update(id, updateBlog)
       setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
-      
+
     } catch(exception) {
       setNoticeType('error')
       setMessage(exception.response.data.error)
@@ -100,7 +100,9 @@ const App = () => {
       <BlogForm addBlog={addBlog} />
     </Togglable>
   )
-
+  
+  
+  
   return (
     <div>
       {message && (
@@ -124,13 +126,15 @@ const App = () => {
           </>
         )
       }
-      {blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleUpdate={handleUpdate}
-        />
-      )}
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleUpdate={handleUpdate}
+          />
+        )}
     </div>
   )
 }
