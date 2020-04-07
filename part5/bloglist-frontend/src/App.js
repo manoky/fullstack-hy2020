@@ -34,6 +34,8 @@ const App = () => {
     }
   }, [])
 
+  const blogFormRef = React.createRef()
+
   const handleLogin = async (credentials) => {
   
     try {
@@ -61,7 +63,7 @@ const App = () => {
   }
 
   const addBlog = async (blog) => {
-  
+    blogFormRef.current.toggleVisibility()
     try {
       const newBlog = await blogService.create(blog)
       setNoticeType('success')
@@ -76,6 +78,17 @@ const App = () => {
     
   }
 
+  const handleUpdate = async (id, updateBlog) => {
+    try {
+      const updatedBlog = await blogService.update(id, updateBlog)
+      setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
+      
+    } catch(exception) {
+      setNoticeType('error')
+      setMessage(exception.response.data.error)
+    }
+  }
+
   const loginForm = () => (
     <Togglable buttonLable='login'>
       <LoginForm handleLogin={handleLogin} />
@@ -83,7 +96,7 @@ const App = () => {
   )
 
   const blogForm = () => (
-    <Togglable buttonLable='new note'>
+    <Togglable buttonLable='new note' ref={blogFormRef}>
       <BlogForm addBlog={addBlog} />
     </Togglable>
   )
@@ -112,7 +125,11 @@ const App = () => {
         )
       }
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleUpdate={handleUpdate}
+        />
       )}
     </div>
   )
