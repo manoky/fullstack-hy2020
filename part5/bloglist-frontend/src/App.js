@@ -63,7 +63,7 @@ const App = () => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('currentUser')
-    setNoticeType('error')
+    setNoticeType('success')
     setMessage(`${user.name} logged out`)
   }
 
