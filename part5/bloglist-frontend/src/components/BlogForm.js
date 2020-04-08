@@ -34,6 +34,7 @@ const BlogForm = ({ addBlog }) => {
             type="text"
             value={title}
             onChange={setBlogProperties('title')}
+            id='title'
           />
         </div>
         <div>
@@ -42,6 +43,7 @@ const BlogForm = ({ addBlog }) => {
             type="text"
             value={author}
             onChange={setBlogProperties('author')}
+            id='author'
           />
         </div>
         <div>
@@ -50,6 +52,7 @@ const BlogForm = ({ addBlog }) => {
             type="text"
             value={url}
             onChange={setBlogProperties('url')}
+            id='url'
           />
         </div>
         <div>
