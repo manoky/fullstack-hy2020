@@ -36,13 +36,17 @@ const Blog = ({ blog, handleUpdate, removeBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={toggleVisible} style={{ cursor: 'pointer' }}>
+      <div
+        className="blog-preview"
+        onClick={toggleVisible}
+        style={{ cursor: 'pointer' }}
+      >
         {blog.title} {blog.author}{' '}
         <button onClick={toggleVisible}>
           {visible ? 'hide' : 'view' }
         </button>
       </div>
-      <div style={showDetails}>
+      <div style={showDetails} className="blog-details">
         <div>
           {blog.url}
         </div>
