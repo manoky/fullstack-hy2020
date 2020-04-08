@@ -8,6 +8,8 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
   const [noticeType, setNoticeType] = useState('')
@@ -36,23 +38,26 @@ const App = () => {
 
   const blogFormRef = React.createRef()
 
-  const handleLogin = async (credentials) => {
-  
+  const handleLogin = async (e) => {
+    e.preventDefault()
     try {
-      const user = await blogService.login(credentials)
-  
+      const user = await blogService.login({
+        username, password
+      })
+
       blogService.setToken(user.token)
-    
+
       window.localStorage.setItem('currentUser', JSON.stringify(user))
       setUser(user)
+      setUsername('')
+      setPassword('')
       setNoticeType('success')
       setMessage(`${user.name} successfully logged in`)
-    
+
     } catch (exception) {
       setNoticeType('error')
       setMessage(exception.response.data.error)
     }
-    
   }
 
   const handleLogout = () => {
@@ -75,7 +80,6 @@ const App = () => {
       setNoticeType('error')
       setMessage(exception.response.data.error)
     }
-    
   }
 
   const handleUpdate = async (id, updateBlog) => {
@@ -102,19 +106,23 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <Togglable buttonLable='login'>
-      <LoginForm handleLogin={handleLogin} />
+    <Togglable buttonLabel='login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleSubmit={handleLogin}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+      />
     </Togglable>
   )
 
   const blogForm = () => (
-    <Togglable buttonLable='new note' ref={blogFormRef}>
+    <Togglable buttonLabel='new note' ref={blogFormRef}>
       <BlogForm addBlog={addBlog} />
     </Togglable>
   )
-  
-  
-  
+
   return (
     <div>
       {message && (
@@ -133,7 +141,7 @@ const App = () => {
             <p>
               {user.name} logged in <button onClick={handleLogout}>logout</button>
             </p>
-        
+
             {blogForm()}
           </>
         )

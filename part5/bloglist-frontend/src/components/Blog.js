@@ -36,7 +36,7 @@ const Blog = ({ blog, handleUpdate, removeBlog }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={toggleVisible} style={{cursor: 'pointer'}}>
+      <div onClick={toggleVisible} style={{ cursor: 'pointer' }}>
         {blog.title} {blog.author}{' '}
         <button onClick={toggleVisible}>
           {visible ? 'hide' : 'view' }
