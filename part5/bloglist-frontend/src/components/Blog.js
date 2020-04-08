@@ -42,7 +42,10 @@ const Blog = ({ blog, handleUpdate, removeBlog }) => {
         style={{ cursor: 'pointer' }}
       >
         {blog.title} {blog.author}{' '}
-        <button onClick={toggleVisible}>
+        <button
+          className="toggle-btn"
+          onClick={toggleVisible}
+        >
           {visible ? 'hide' : 'view' }
         </button>
       </div>
