@@ -55,7 +55,12 @@ const Blog = ({ blog, handleUpdate, removeBlog }) => {
         </div>
         <div>
           likes {blog.likes}{' '}
-          <button onClick={() => handLikes(blog)}>like</button>
+          <button
+            className="like-btn"
+            onClick={() => handLikes(blog)}
+          >
+            like
+          </button>
         </div>
         <div>
           {blog.user && blog.user.name}
