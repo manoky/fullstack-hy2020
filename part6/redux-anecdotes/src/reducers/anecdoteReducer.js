@@ -34,13 +34,11 @@ export const initializeAnecdotes = () => {
 
 
 const reducer = (state = [], action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
 
   switch(action.type) {
   case 'VOTE': {
     const votedAnecdote = action.data
-    console.log(votedAnecdote)
+
     return state.map(anecdote => {
       return anecdote.id === votedAnecdote.id
         ? votedAnecdote

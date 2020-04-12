@@ -1,3 +1,4 @@
+let timer = null
 export const setNotification = (message, sec) => {
   return async dispatch => {
     await dispatch({
@@ -5,9 +6,12 @@ export const setNotification = (message, sec) => {
       message
     })
 
-    setTimeout(() => {
+    clearTimeout(timer)
+    console.log(timer)
+    timer = setTimeout(() => {
       dispatch(resetNotification())
     }, sec)
+
   }
 }
 
@@ -17,7 +21,7 @@ export const resetNotification = () => {
   }
 }
 
-const initialState = null;
+const initialState = null
 
 const reducer = (state = initialState, action) => {
   switch(action.type) {
