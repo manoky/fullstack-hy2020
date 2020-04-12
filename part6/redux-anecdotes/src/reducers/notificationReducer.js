@@ -7,7 +7,7 @@ export const setNotification = (message, sec) => {
     })
 
     clearTimeout(timer)
-    console.log(timer)
+
     timer = setTimeout(() => {
       dispatch(resetNotification())
     }, sec)
