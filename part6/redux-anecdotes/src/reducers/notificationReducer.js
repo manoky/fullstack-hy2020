@@ -1,7 +1,13 @@
-export const setNotification = (message) => {
-  return {
-    type: 'SET_MESSAGE',
-    message
+export const setNotification = (message, sec) => {
+  return async dispatch => {
+    await dispatch({
+      type: 'SET_MESSAGE',
+      message
+    })
+
+    setTimeout(() => {
+      dispatch(resetNotification())
+    }, sec)
   }
 }
 
@@ -16,14 +22,14 @@ const initialState = null;
 const reducer = (state = initialState, action) => {
   switch(action.type) {
 
-    case 'SET_MESSAGE':
-      return action.message
-  
-    case 'RESET_MESSAGE':
-      return initialState
+  case 'SET_MESSAGE':
+    return action.message
 
-    default:
-      return state
+  case 'RESET_MESSAGE':
+    return initialState
+
+  default:
+    return state
   }
 }
 
